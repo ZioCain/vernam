@@ -29,8 +29,8 @@ If you want this to work from any directory in your system, place the executable
 
 ## Built With
 
-[Atom.io](https://atom.io/)
-G++
+* [Atom.io](https://atom.io/)
+* G++
 
 ## Authors
 
