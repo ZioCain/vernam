@@ -6,8 +6,8 @@ There's only one cpp file in the project, this means you only have to compile it
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
 Any and whatever c++ compiler.
+
 I've been using g++ on my linux to develop and test
 
 ### Installing
