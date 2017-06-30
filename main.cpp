@@ -7,8 +7,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-  // vernam encrypt <filename> <outputfile>
-  // vernam decrypt <filename> <outputfile>
+  // vernam e|encrypt <filename> <outputfile>
+  // vernam d|decrypt <filename> <outputfile>
   if(argc!=4){
     cout<<"Correct usage:\n$ vernam encrypt|decrypt <filename> <outputfile>\n";
     return 1;
@@ -22,15 +22,14 @@ int main(int argc, char *argv[]){
   }
   long fin_size = f.tellg();
   f.seekg(0,f.beg);
-  cout<<"INPUT FILE SIZE: "<<fin_size<<"\n";
-  //cout<<"DIFF end-beg: "<<(f.end-f.beg)<<"\n";
+  cout<<"INPUT FILE SIZE: "<<fin_size<<" B\n";
   fout.open(argv[3]);
   if(!fout.is_open()){
     cout<<"Can't open output file";
     return 3;
   }
   char pw[MAXPW], c=0;
-  int pwi=0;
+  int pwi=0, pwc=0;
   cout<<"Type encrypting password (max "<<MAXPW<<" chars): ";
   do{
     c=getchar();
@@ -38,6 +37,9 @@ int main(int argc, char *argv[]){
       pw[pwi++]=c;
     }
   }while(c!='\n');
+  pw[pwi]=0;
+  pwc=pwi;
+  cout<<"PW: "<<pw<<"\n";
   pwi=0;
   int k=0;
   if(!strcmp(argv[1],"e") || !strcmp(argv[1], "encrypt")){
@@ -47,7 +49,7 @@ int main(int argc, char *argv[]){
       if(b!=EOF){
         //cout<<"Byte read: "<<b;
         fout<<(char)(b+pw[pwi]);
-        pwi=(pwi+1)%MAXPW;
+        pwi=(pwi+1)%pwc;
       }
     }
   }
@@ -57,11 +59,13 @@ int main(int argc, char *argv[]){
       f.read(&b, 1);
       //cout<<"Byte read: "<<b;
       fout<<(char)(b-pw[pwi]);
-      pwi=(pwi+1)%MAXPW;
+      pwi=(pwi+1)%pwc;
     }
   }
   f.close();
   fout.close();
+  cout<<"Process completed.\n";
+  return EXIT_SUCCESS;
 }
 /* error codes:
   1: incorrect parameters
